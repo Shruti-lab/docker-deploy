@@ -1,4 +1,4 @@
-from app import Flask, request, jsonify
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -27,6 +27,8 @@ def get_task(task_id):
 @app.route('/tasks', methods=['POST'])
 def create_task():
     new_task = request.get_json()
+    if not new_task or 'id' not in new_task or 'name' not in new_task:
+        return jsonify({"error": "Invalid task data"}), 400
     tasks.append(new_task)
     return jsonify(new_task), 201
 

@@ -23,7 +23,7 @@ It supports:
 
 ---
 
-## 📦 Setup & Run with Docker
+## Setup & Run with Docker
 
 1. Clone the repository:
 
@@ -46,4 +46,64 @@ DB_PORT=
 ```bash
 docker compose up --build
 ```
+
+4. Stop containers:
+```bash
+docker compose down
+```
+
+## API Endpoints & Testing with cURL
+### 1. Admin Signup
+```bash
+curl -X POST http://localhost:80/admin/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+        "username": "john",
+        "password": "secure123",
+        "email": "john@example.com"
+      }'
+
+```
+
+### 2. User/Admin Login
+```bash
+curl -X POST http://localhost:80/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": "john@example.com",
+        "password": "secure123",
+        "role": "admin"
+      }'
+```
+Response returns access_token and role.
+
+
+### 3. Update User Profile (PUT /aboutme)
+```bash
+curl -X PUT http://localhost:80/user/aboutme \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <ACCESS_TOKEN>" \
+  -d '{
+        "name": "John Doe",
+        "password": "newpassword123"
+      }'
+```
+- Fields name and password are optional; include only the ones you want to update.
+
+
+### 4. Admin: Get All Users
+```bash
+curl -X GET http://localhost:80/admin/users \
+  -H "Authorization: Bearer <ADMIN_ACCESS_TOKEN>"
+
+```
+
+
+### 5. Admin: Delete a User
+```bash
+curl -X DELETE http://localhost:80/admin/users/<USER_UUID> \
+  -H "Authorization: Bearer <ADMIN_ACCESS_TOKEN>"
+```
+
+
 

@@ -1,0 +1,1 @@
+from app.log_manager import logger

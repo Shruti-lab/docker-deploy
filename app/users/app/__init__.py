@@ -1,0 +1,48 @@
+from flask import Flask, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
+from app.config import Config
+from flask_migrate import Migrate
+from app.database import db
+
+bcrypt = Bcrypt()
+jwt = JWTManager()
+migrate = Migrate()
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    db.init_app(app)
+    migrate.init_app(app,db)
+    bcrypt.init_app(app)
+    jwt.init_app(app)
+
+    from app.models import User, Admin
+
+    from app.auth import auth_bp
+    app.register_blueprint(auth_bp)
+
+    from app.admins import admin_bp
+    app.register_blueprint(admin_bp)
+
+    from app.users import user_bp
+    app.register_blueprint(user_bp)
+
+    # from app.routes import register_routes
+    # register_routes(app)
+
+
+    @app.route('/')
+    def test_app():
+        return jsonify({"message":"The flask application is running fine!"}) , 200
+
+    @app.route('/health')
+    def health():
+        return jsonify({"message":"Health of application is good."}) , 200
+
+
+
+    return app
+

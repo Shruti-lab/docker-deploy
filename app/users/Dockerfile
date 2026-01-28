@@ -39,7 +39,6 @@ ENV FLASK_APP=run.py
 
 
 EXPOSE 5002
-RUN flask db init
 
 ENTRYPOINT [ "./entrypoint.sh" ]
 

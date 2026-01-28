@@ -1,4 +1,11 @@
 services:
+  admins_service:
+    build: ./admins
+    container_name: admins_service
+    restart: always
+    ports:
+    
+
   web:
     build: .
     container_name: deploy_app

@@ -4,8 +4,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from pydantic import ValidationError
 from app import db, bcrypt
 from datetime import datetime
-from app.models.user_models import User
-from app.schema.user_schema import UpdateUserSchema
+from app.models import User
+from app.schema import UpdateUserSchema
 import uuid
 from app.utils.logger import get_logger
 

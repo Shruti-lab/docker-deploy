@@ -3,14 +3,16 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pydantic import ValidationError
 from app import db, bcrypt
-import logging
 from datetime import datetime
 from app.models.user_models import User
 from app.schema.user_schema import UpdateUserSchema
 import uuid
+from app.utils.logger import get_logger
 
 
-logger = logging.getLogger(__name__)
+user_bp = Blueprint('user',__name__,url_prefix='/user')
+logger = get_logger(__name__)
+
 
 @user_bp.route('/aboutme')
 @jwt_required()

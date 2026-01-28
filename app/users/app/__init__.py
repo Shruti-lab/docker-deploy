@@ -21,26 +21,18 @@ def create_app():
 
     from app.models import User, Admin
 
-    from app.auth import auth_bp
-    app.register_blueprint(auth_bp)
 
-    from app.admins import admin_bp
-    app.register_blueprint(admin_bp)
-
-    from app.users import user_bp
+    from app.routes import user_bp
     app.register_blueprint(user_bp)
-
-    # from app.routes import register_routes
-    # register_routes(app)
 
 
     @app.route('/')
     def test_app():
-        return jsonify({"message":"The flask application is running fine!"}) , 200
+        return jsonify({"message":"The User service is running fine!"}) , 200
 
     @app.route('/health')
     def health():
-        return jsonify({"message":"Health of application is good."}) , 200
+        return jsonify({"message":"Health of User service application is good."}) , 200
 
 
 

@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
-from app import db
-import logging
+from app.database import db
 from datetime import datetime
 from app.models.user_models import User
 from app.models.admin_models import Admin
@@ -10,10 +9,12 @@ from app.schema.user_schema import CreateUserSchema
 from app.schema.auth_schema import SignUpSchema
 from pydantic import ValidationError
 import uuid
+from app.utils.logger import get_logger
+
 
 
 admin_bp = Blueprint('admin',__name__,url_prefix='/admin')
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 

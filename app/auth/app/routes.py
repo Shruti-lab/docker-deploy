@@ -7,10 +7,10 @@ from app.schema import LoginSchema
 from app.models.admin_models import Admin
 from app.models.user_models import User
 from app.utils.jwtUtil import generate_jwt
-from app.log_manager import logger
+from app.utils.logger import get_logger
 
 auth_bp = Blueprint('auth',__name__,url_prefix='/auth')
-logger = logger.get_logger(__name__)
+logger = get_logger(__name__)
 
 
 @auth_bp.route('/login',methods=['POST'])

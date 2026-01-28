@@ -37,7 +37,6 @@ USER ${USERNAME}
 
 ENV FLASK_APP=run.py
 
-
 EXPOSE 5002
 
 ENTRYPOINT [ "./entrypoint.sh" ]

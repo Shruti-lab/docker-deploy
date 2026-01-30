@@ -4,22 +4,57 @@ services:
     container_name: admins_service
     restart: always
     ports:
-    
-
-  web:
-    build: .
-    container_name: deploy_app
-    restart: always
-    ports:
-      - "80:5000"
+      - "5001:5001"
     env_file:
-      - .env
+      - /admins/.env
     depends_on:
       - db
     volumes:
-      - .:/deploy_app
+      -./admins:/app
     networks:
       - app_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]  # Ensure your app exposes a health endpoint
+      interval: 30s
+      retries: 3
+
+  auth_service:
+    build: ./auth
+    container_name: auth_service
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - /auth/.env
+    depends_on:
+      db:
+        condition: service_healthy
+      admins_service:
+        condition: service_healthy
+    volumes:
+      -./auth:/app
+    networks:
+      - app_network
+
+  users_service:
+    build: ./users
+    container_name: users_service
+    restart: always
+    ports:
+      - "5002:5002"
+    env_file:
+      - /users/.env
+    depends_on:
+      db:
+        condition: service_healthy
+      admins_service:
+        condition: service_healthy
+    volumes:
+      -./users:/app
+    networks:
+      - app_network
+ 
+
   db:
     image: postgres:15-alpine
     container_name: postgres_db
@@ -34,6 +69,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 
 volumes:

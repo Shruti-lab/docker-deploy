@@ -6,11 +6,12 @@ services:
     ports:
       - "5001:5001"
     env_file:
-      - /admins/.env
+      - ./admins/.env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
-      -./admins:/app
+      - ./admins:/app
     networks:
       - app_network
     healthcheck:
@@ -25,14 +26,14 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - /auth/.env
+      - ./auth/.env
     depends_on:
       db:
         condition: service_healthy
       admins_service:
         condition: service_healthy
     volumes:
-      -./auth:/app
+      - ./auth:/app
     networks:
       - app_network
 
@@ -43,14 +44,14 @@ services:
     ports:
       - "5002:5002"
     env_file:
-      - /users/.env
+      - ./users/.env
     depends_on:
       db:
         condition: service_healthy
       admins_service:
         condition: service_healthy
     volumes:
-      -./users:/app
+      - ./users:/app
     networks:
       - app_network
  

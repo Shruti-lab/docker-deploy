@@ -21,18 +21,10 @@ def create_app():
 
     from app.models import User, Admin
 
-    from app.routes import auth_bp
-    app.register_blueprint(auth_bp)
 
+    from app.routes import user_bp
+    app.register_blueprint(user_bp)
 
-
-    @app.route('/')
-    def test_app():
-        return jsonify({"message":"The Auth microservice is running fine!"}) , 200
-
-    @app.route('/health')
-    def health():
-        return jsonify({"message":"Health of the Auth service is good."}) , 200
 
 
     return app

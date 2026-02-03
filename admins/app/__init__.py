@@ -21,18 +21,8 @@ def create_app():
 
     from app.models import User, Admin
 
-
-    from app.routes import user_bp
-    app.register_blueprint(user_bp)
-
-
-    @app.route('/')
-    def test_app():
-        return jsonify({"message":"The User service is running fine!"}) , 200
-
-    @app.route('/health')
-    def health():
-        return jsonify({"message":"Health of User service application is good."}) , 200
+    from app.routes import admin_bp
+    app.register_blueprint(admin_bp)
 
 
 

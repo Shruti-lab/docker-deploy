@@ -29,7 +29,7 @@ COPY . .
 
 RUN chown -R ${USERNAME}:${USERNAME} ${WORKING_DIR}
 RUN chmod -R u=rwx,g=rwx ${WORKING_DIR}
-RUN chmod +x entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 
 USER ${USERNAME}
@@ -40,7 +40,7 @@ ENV FLASK_APP=run.py
 
 EXPOSE 5000
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "/app/entrypoint.sh" ]
 
 
 

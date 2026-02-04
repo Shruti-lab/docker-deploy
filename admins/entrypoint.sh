@@ -11,6 +11,7 @@ done
 echo "PostgreSQL is up - Admins Service"
 
 echo "Running database migrations..."
+flask db init
 flask db migrate
 flask db upgrade 
 

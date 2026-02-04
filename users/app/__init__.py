@@ -19,7 +19,7 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
 
-    from app.models import User, Admin
+    from app.models import User
 
 
     from app.routes import user_bp

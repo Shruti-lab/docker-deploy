@@ -14,10 +14,6 @@ services:
       - ./admins:/app
     networks:
       - app_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]  # Ensure your app exposes a health endpoint
-      interval: 30s
-      retries: 3
 
   auth_service:
     build: ./auth
@@ -31,7 +27,7 @@ services:
       db:
         condition: service_healthy
       admins_service:
-        condition: service_healthy
+        condition: service_started
     volumes:
       - ./auth:/app
     networks:
@@ -49,7 +45,7 @@ services:
       db:
         condition: service_healthy
       admins_service:
-        condition: service_healthy
+        condition: service_started
     volumes:
       - ./users:/app
     networks:
@@ -75,6 +71,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 5s
 
 
 volumes:

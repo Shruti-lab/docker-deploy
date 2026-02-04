@@ -1,8 +1,8 @@
-from app.users import user_bp
 from flask import Blueprint, request, jsonify 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pydantic import ValidationError
-from app import db, bcrypt
+from app.database import db
+from app import bcrypt
 from datetime import datetime
 from app.models import User
 from app.schema import UpdateUserSchema
@@ -57,6 +57,8 @@ def update_user_detail():
         if validated_data.password is not None:
             user.set_password(validated_data.password)
 
+        db.session.commit()
+
         return jsonify({
             "message":"Update successful!",
             "data":{
@@ -66,7 +68,7 @@ def update_user_detail():
             }
         }), 200
 
-    except:
+    except Exception as e:
         logger.error(f"Database error during user update details: {str(e)}")
         return jsonify({"message":f"Failed to fetch user details: {str(e)}"}), 500
 
